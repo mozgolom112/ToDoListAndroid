@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="detailViewModel"
             type="ru.mozgolom112.todolistyaleto2022.todoitemdetail.ToDoItemDetailViewModel" />
@@ -18,11 +19,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
+            android:text="@{detailViewModel._toDoItemIdLiveData}"
             android:textSize="40dp"
-            android:text="@{detailViewModel.toDoItemId}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Test Id here" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Сохранить"
+            android:textColor="@color/ya_Blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="@{() -> detailViewModel.onSaveItemClick()}">
+
+        </Button>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
