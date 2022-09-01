@@ -1,11 +1,9 @@
 package ru.mozgolom112.todolistyaleto2022.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
+@Dao
 interface ToDoListDatabaseDao {
     //Вставить запись
     @Insert
@@ -20,7 +18,7 @@ interface ToDoListDatabaseDao {
     fun deleteToDoItems(toDoItems: List<ToDoItem>)
 
     //Удалить по id записи
-    @Query("SELECT * FROM to_do_items WHERE to_do_item_id = :id")
+    @Query("DELETE FROM to_do_items WHERE to_do_item_id = :id")
     fun deleteToDoItemByID(id: String)
 
     //Удалить все записи

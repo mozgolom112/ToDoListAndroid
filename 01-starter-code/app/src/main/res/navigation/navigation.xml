@@ -7,20 +7,26 @@
     <fragment
         android:id="@+id/toDoItemsTrackerFragment"
         android:name="ru.mozgolom112.todolistyaleto2022.todoitemstracker.ToDoItemsTrackerFragment"
-        android:label="ToDoItemsTrackerFragment" >
+        android:label="ToDoItemsTrackerFragment">
         <action
             android:id="@+id/actionToDoItemsTrackerFragmentToToDoItemDetailFragment"
             app:destination="@id/toDoItemDetailFragment"
-            app:enterAnim="@anim/nav_default_enter_anim" />
+            app:enterAnim="@anim/nav_default_enter_anim" >
+            <argument
+                android:name="toDoItemID" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/toDoItemDetailFragment"
         android:name="ru.mozgolom112.todolistyaleto2022.todoitemdetail.ToDoItemDetailFragment"
-        android:label="ToDoItemDetailFragment" >
+        android:label="ToDoItemDetailFragment">
         <action
             android:id="@+id/actionToDoItemDetailFragmentToToDoItemsTrackerFragment"
             app:destination="@id/toDoItemsTrackerFragment"
             app:popUpTo="@id/toDoItemDetailFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="toDoItemID"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -16,14 +16,18 @@ abstract class ToDoListDatabase : RoomDatabase() {
         fun getInstance(context: Context): ToDoListDatabase {
             synchronized(this) {
                 var instance = INSTANCE
+
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         ToDoListDatabase::class.java,
-                        "to_do_list_database"
-                    ).fallbackToDestructiveMigration().build()
+                        "sleep_history_database"
+                    )
+                        .fallbackToDestructiveMigration()
+                        .build()
+                    INSTANCE = instance
                 }
-                INSTANCE = instance
+
                 return instance
             }
         }
