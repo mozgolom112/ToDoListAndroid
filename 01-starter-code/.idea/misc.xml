@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/layout/activity_main.xml" value="0.18802083333333333" />
+        <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/layout/fragment_to_do_item_detail.xml" value="0.1328125" />
+        <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/layout/fragment_to_do_items_tracker.xml" value="0.265625" />
       </map>
     </option>
   </component>
