@@ -27,5 +27,5 @@ interface ToDoListDatabaseDao {
 
     //Получить весь список
     @Query("SELECT * FROM to_do_items ORDER BY date_create")
-    fun getAllItems(): LiveData<List<ToDoItem>>
+    fun getAllItems(): LiveData<List<ToDoItem>?>
 }

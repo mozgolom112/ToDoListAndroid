@@ -7,4 +7,21 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!--Labels-->
+    <color name="ya_Primary_Label">#000000</color>
+    <color name="ya_Secondary_Label">#99000000</color>
+    <color name="ya_Tertiary_Label">#4D000000</color>
+    <color name="ya_Disable_Label">#26000000</color>
+
+    <!--Colors-->
+    <color name="ya_Blue">#007AFF</color>
+    <color name="ya_Red">#FF3B30</color>
+    <color name="ya_Green">#34C759</color>
+    <color name="ya_Gray">#8E8E93</color>
+    <color name="ya_Gray_Light">#D1D1D6</color>
+    <color name="ya_White">#FFFFFF</color>
+    <!--Back-->
+    <color name="ya_Primary_Back">#F7F6F2</color>
+    <color name="ya_Secondary_Back">#FFFFFF</color>
+    <color name="ya_Elevated_Back">#FFFFFF</color>
 </resources>

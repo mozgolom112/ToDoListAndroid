@@ -5,6 +5,9 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabaseDao
 import java.util.*
@@ -14,8 +17,16 @@ class ToDoItemsTrackerViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val _toDoItems = MutableLiveData<List<ToDoItem?>>()
-    val toDoItems: LiveData<List<ToDoItem?>>
+    private val viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+
+    private val _toDoItems = database.getAllItems()
+    val toDoItems: LiveData<List<ToDoItem>?>
         get() = _toDoItems
 
     private val _navigateToDetails = MutableLiveData<ToDoItem?>()
