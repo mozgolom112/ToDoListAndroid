@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -49,10 +51,20 @@ class ToDoItemDetailFragment : Fragment() {
         DataBindingUtil.inflate(inflater, R.layout.fragment_to_do_item_detail, container, false)
 
     private fun fulfillBinding(binding: FragmentToDoItemDetailBinding) {
+
         binding.apply {
             detailViewModel = this@ToDoItemDetailFragment.detailViewModel
             lifecycleOwner = viewLifecycleOwner
+            (spinner.editText as? AutoCompleteTextView)?.setAdapter(createSpinnerAdapter())
+
         }
+    }
+
+    private fun createSpinnerAdapter() : ArrayAdapter<String> {
+        val items = listOf("Нет", "Низкий", "!! Высокий")
+        val adapter = ArrayAdapter(requireContext(), R.layout.spin_list_item, items)
+
+        return adapter
     }
 
     private fun setObservers() {
