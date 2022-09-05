@@ -14,4 +14,5 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/ya_Primary_Back</item>
         <!-- Customize your theme here. -->
     </style>
+    
 </resources>

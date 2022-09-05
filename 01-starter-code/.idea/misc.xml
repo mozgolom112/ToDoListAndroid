@@ -4,8 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/drawable/ic_plus.xml" value="0.241" />
+        <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/drawable/ic_trash_can.xml" value="0.2325" />
+        <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/drawable/ic_xmark.xml" value="0.2795" />
         <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/layout/activity_main.xml" value="0.18802083333333333" />
-        <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/layout/fragment_to_do_item_detail.xml" value="0.5" />
+        <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/layout/fragment_to_do_item_detail.xml" value="0.33" />
         <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/layout/fragment_to_do_items_tracker.xml" value="0.33" />
         <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/layout/header.xml" value="0.33" />
         <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/layout/list_item_to_do_item.xml" value="0.14285714285714285" />

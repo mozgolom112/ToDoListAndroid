@@ -55,7 +55,7 @@ class ToDoItemDetailFragment : Fragment() {
         binding.apply {
             detailViewModel = this@ToDoItemDetailFragment.detailViewModel
             lifecycleOwner = viewLifecycleOwner
-            (spinner.editText as? AutoCompleteTextView)?.setAdapter(createSpinnerAdapter())
+            (spinPriority.editText as? AutoCompleteTextView)?.setAdapter(createSpinnerAdapter())
 
         }
     }
