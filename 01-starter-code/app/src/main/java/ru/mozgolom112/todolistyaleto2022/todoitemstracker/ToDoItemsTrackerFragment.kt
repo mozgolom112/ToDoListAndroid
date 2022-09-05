@@ -94,7 +94,7 @@ class ToDoItemsTrackerFragment : Fragment() {
     }
 
     private fun navigateToDetails(toDoItemID: String) {
-        val action = ToDoItemsTrackerFragmentDirections.actionToDoItemsTrackerFragmentToToDoItemDetailFragment(toDoItemID)
+        val action = ToDoItemsTrackerFragmentDirections.actionToDoItemsTrackerFragmentToToDoItemDetailFragment("1")
         findNavController().navigate(action)
     }
 }

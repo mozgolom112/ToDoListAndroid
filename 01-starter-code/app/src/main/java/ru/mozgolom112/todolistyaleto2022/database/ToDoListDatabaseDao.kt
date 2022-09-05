@@ -25,6 +25,10 @@ interface ToDoListDatabaseDao {
     @Query("DELETE FROM to_do_items")
     fun cleanToDoItems()
 
+    //Получить запись
+    @Query("SELECT * FROM to_do_items WHERE to_do_item_id = :id")
+    fun getToDoItemByID(id: String): ToDoItem?
+
     //Получить весь список
     @Query("SELECT * FROM to_do_items ORDER BY date_create")
     fun getAllItems(): LiveData<List<ToDoItem>?>
