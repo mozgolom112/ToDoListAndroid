@@ -15,11 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Job
 import ru.mozgolom112.todolistyaleto2022.R
+import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabase
 import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabaseDao
 import ru.mozgolom112.todolistyaleto2022.databinding.FragmentToDoItemsTrackerBinding
 import java.util.*
-const val EMPTY_ID = ""
+
 class ToDoItemsTrackerFragment : Fragment() {
 
     private val toDoItemsTrackerViewModel: ToDoItemsTrackerViewModel by lazy {
@@ -74,16 +75,8 @@ class ToDoItemsTrackerFragment : Fragment() {
 
     private fun setObservers() {
         toDoItemsTrackerViewModel.apply {
-            navigateToDetails.observe(viewLifecycleOwner, Observer { item ->
-                Log.i("Tracker", "Navigate with")
-                val toDoItemID: String = item?.id ?: return@Observer
-                navigateToDetails(toDoItemID)
-            })
-            navigateToCreateNewToDoItem.observe(viewLifecycleOwner, Observer { hasNavigated ->
-                if (hasNavigated){
-                    navigateToDetails(EMPTY_ID)
-                    doneNavigation()
-                }
+            navigateToDetails.observe(viewLifecycleOwner, Observer { hasNavigated ->
+                if (hasNavigated == true) navigateToDetails(itemToDetails)
             })
             toDoItems.observe(viewLifecycleOwner, Observer { items ->
                 items?.let{
@@ -93,8 +86,12 @@ class ToDoItemsTrackerFragment : Fragment() {
         }
     }
 
-    private fun navigateToDetails(toDoItemID: String) {
-        val action = ToDoItemsTrackerFragmentDirections.actionToDoItemsTrackerFragmentToToDoItemDetailFragment("1")
+    private fun navigateToDetails(item: ToDoItem?) {
+        //Если item == EMPTY_TODO_ITEM, то это означает что создается новый элемент
+        //Если у нас есть элемент, то мы навигируемся и выгружаем детали
+        Log.i("TrackerFragment","${item?.description}")
+        val action = ToDoItemsTrackerFragmentDirections.actionToDoItemsTrackerFragmentToToDoItemDetailFragment(item)
         findNavController().navigate(action)
+        toDoItemsTrackerViewModel.doneNavigation()
     }
 }

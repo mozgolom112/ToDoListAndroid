@@ -12,6 +12,8 @@ import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabaseDao
 import java.util.*
 
+val EMPTY_TODO_ITEM = null
+
 class ToDoItemsTrackerViewModel(
     val database: ToDoListDatabaseDao,
     application: Application
@@ -29,23 +31,28 @@ class ToDoItemsTrackerViewModel(
     val toDoItems: LiveData<List<ToDoItem>?>
         get() = _toDoItems
 
-    private val _navigateToDetails = MutableLiveData<ToDoItem?>()
-    val navigateToDetails: LiveData<ToDoItem?>
+    //Navigation
+
+    private val _navigateToDetails = MutableLiveData<Boolean?>(false)
+    val navigateToDetails: LiveData<Boolean?>
         get() = _navigateToDetails
 
-    fun onItemClick(){
-        Log.i("ToDoItemsTrackerViewModel","onItemClick")
+    private var _itemToDetails: ToDoItem? = EMPTY_TODO_ITEM
+    val itemToDetails: ToDoItem?
+        get() = _itemToDetails
+
+    fun navigateToItemDetails(selectedItem: ToDoItem){
+        _itemToDetails = selectedItem
+        _navigateToDetails.value = true
     }
 
-    private val _navigateToCreateNewToDoItem = MutableLiveData<Boolean>(false)
-    val navigateToCreateNewToDoItem: LiveData<Boolean>
-        get() = _navigateToCreateNewToDoItem
-
     fun onCreateNewItem() {
-        _navigateToCreateNewToDoItem.value = true
+        _itemToDetails = EMPTY_TODO_ITEM
+        _navigateToDetails.value = true
     }
 
     fun doneNavigation() {
-        _navigateToCreateNewToDoItem.value = false
+        _itemToDetails = null
+        _navigateToDetails.value = null
     }
 }

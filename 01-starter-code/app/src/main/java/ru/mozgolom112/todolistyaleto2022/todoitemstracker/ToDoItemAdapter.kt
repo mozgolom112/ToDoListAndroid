@@ -1,7 +1,6 @@
 package ru.mozgolom112.todolistyaleto2022.todoitemstracker
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,13 +9,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.mozgolom112.todolistyaleto2022.R
 import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.databinding.HeaderBinding
 import ru.mozgolom112.todolistyaleto2022.databinding.ListItemToDoItemBinding
 
 private val ITEM_VIEW_TYPE_HEADER = 0
 private val ITEM_VIEW_TYPE_ITEM = 1
+private val EMPTY_ID = ""
 
 class ToDoItemAdapter() : ListAdapter<DataItem, RecyclerView.ViewHolder>(ToDoItemDiffCallback()) {
 
