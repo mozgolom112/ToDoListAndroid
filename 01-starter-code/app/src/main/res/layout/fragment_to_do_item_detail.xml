@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="detailViewModel"
+            name="viewModel"
             type="ru.mozgolom112.todolistyaleto2022.todoitemdetail.ToDoItemDetailViewModel" />
     </data>
 
@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:onClick="@{() -> detailViewModel.onSaveItemClick()}"
+            android:onClick="@{() -> viewModel.onSaveItemClick()}"
             android:text="Сохранить"
             android:textColor="@color/ya_Blue"
             app:layout_constraintBottom_toTopOf="@id/scrollView"
@@ -62,8 +62,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:hint="Что надо cделать"
-                    app:startIconTint="@color/ya_Primary_Label"
-                   >
+                    app:startIconTint="@color/ya_Primary_Label">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txtInputToDo"
@@ -72,7 +71,7 @@
                         android:gravity="top"
                         android:inputType="textMultiLine"
                         android:minHeight="120dp"
-                        tools:text="fds"/>
+                        tools:text="fds" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,8 +85,7 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
                     android:hint="Важность"
-                    android:textColorHint="@color/ya_Primary_Label"
-                    >
+                    android:textColorHint="@color/ya_Primary_Label">
 
                     <AutoCompleteTextView
                         android:id="@+id/spin"
@@ -99,7 +97,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-
                 <View
                     android:id="@+id/divider"
                     android:layout_width="match_parent"
@@ -109,28 +106,28 @@
                     android:backgroundTint="@color/ya_Separator"
 
                     />
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="16dp"-->
-<!--                    android:layout_marginTop="32dp"-->
-<!--                    android:layout_marginEnd="16dp"-->
-<!--                    android:textColor="@color/ya_Primary_Label"-->
-<!--                    android:textSize="16dp"-->
-<!--                    android:text="Важность"-->
-<!--                    />-->
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginStart="16dp"-->
+                <!--                    android:layout_marginTop="32dp"-->
+                <!--                    android:layout_marginEnd="16dp"-->
+                <!--                    android:textColor="@color/ya_Primary_Label"-->
+                <!--                    android:textSize="16dp"-->
+                <!--                    android:text="Важность"-->
+                <!--                    />-->
 
 
-<!--                <Spinner-->
-<!--                    android:id="@+id/planets_spinner"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    tools:layout_width="118dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="16dp"-->
-<!--                    android:layout_marginTop="8dp"-->
-<!--                    android:layout_marginEnd="16dp"-->
-<!--                    android:gravity="start"-->
-<!--                    />-->
+                <!--                <Spinner-->
+                <!--                    android:id="@+id/planets_spinner"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    tools:layout_width="118dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginStart="16dp"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    android:layout_marginEnd="16dp"-->
+                <!--                    android:gravity="start"-->
+                <!--                    />-->
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -152,17 +149,20 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:visibility="invisible"
                         android:id="@+id/txtDateOfDeadline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="4dp"
-                        android:text="2 июня 2021"
                         android:textColor="@color/ya_Blue"
+                        app:dealineDate="@{viewModel.dateDeadline}"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/txtLabelDoUntil" />
+                        app:layout_constraintTop_toBottomOf="@id/txtLabelDoUntil"
+                        tools:text="2 июня 2021" />
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchSetDeadline"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"

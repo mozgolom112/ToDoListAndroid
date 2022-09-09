@@ -1,5 +1,6 @@
 package ru.mozgolom112.todolistyaleto2022.todoitemdetail
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,13 +16,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import ru.mozgolom112.todolistyaleto2022.MONTH
 import ru.mozgolom112.todolistyaleto2022.R
 import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabase
 import ru.mozgolom112.todolistyaleto2022.databinding.FragmentToDoItemDetailBinding
 import java.text.SimpleDateFormat
+import java.util.*
 
 val priority_items = listOf("Нет", "Низкий", "!! Высокий")
+val NO_DEADLINE = -1L
+
 
 class ToDoItemDetailFragment : Fragment() {
 
@@ -58,14 +63,45 @@ class ToDoItemDetailFragment : Fragment() {
     private fun fulfillBinding(binding: FragmentToDoItemDetailBinding) {
 
         binding.apply {
-            detailViewModel = this@ToDoItemDetailFragment.detailViewModel
+            viewModel = this@ToDoItemDetailFragment.detailViewModel
             lifecycleOwner = viewLifecycleOwner
             (spinPriority.editText as? AutoCompleteTextView)?.setAdapter(createSpinnerAdapter())
         }
+        setClickListeners(binding)
     }
 
     private fun createSpinnerAdapter(): ArrayAdapter<String> =
         ArrayAdapter(requireContext(), R.layout.spin_list_item, priority_items)
+
+    private fun setClickListeners(binding: FragmentToDoItemDetailBinding) {
+        binding.apply {
+            switchSetDeadline.setOnClickListener() {
+                Log.i("DetailFragment", "Current state is ${switchSetDeadline.isChecked}")
+                //timestamp = -1L
+                if (switchSetDeadline.isChecked) {
+                    val c = Calendar.getInstance()
+                    val year = c.get(Calendar.YEAR)
+                    val month = c.get(Calendar.MONTH)
+                    val day = c.get(Calendar.DAY_OF_MONTH)
+                    val dpd = DatePickerDialog(
+                        requireActivity(),
+                        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                            c.set(year, monthOfYear, dayOfMonth)
+                            val timestamp = c.timeInMillis
+                            detailViewModel.saveDeadlineDate(timestamp)
+                        }, year, month, day
+                    )
+                    dpd.setOnCancelListener() { switchSetDeadline.isChecked = false }
+                    dpd.show()
+                } else {
+                    Log.i("Calendar", "Set NO_DEADLINE Timestamp")
+                    detailViewModel.saveDeadlineDate(NO_DEADLINE)
+                }
+
+
+            }
+        }
+    }
 
     private fun setObservers(binding: FragmentToDoItemDetailBinding) {
         detailViewModel.apply {
@@ -81,8 +117,7 @@ class ToDoItemDetailFragment : Fragment() {
                         "ToDoItemDetailFragment",
                         "Selected spin is $priority.Priority is ${priority_items[priority]}"
                     )
-                    val dateDeadline = -1L
-                    getToDoItemFields(description, priority, dateDeadline)
+                    getToDoItemFields(description, priority)
                 }
             })
             errorTextDescription.observe(viewLifecycleOwner, Observer { err ->
@@ -93,7 +128,9 @@ class ToDoItemDetailFragment : Fragment() {
                 Log.i("ToDoItemDetailFragment", "currentToDoItem set ")
                 toDoItem?.let {
                     Log.i("ToDoItemDetailFragment", "currentToDoItem not empty ")
-                    setCurrentValues(toDoItem, binding)
+                    setCurrentValues(it, binding)
+                    Log.i("Calendar", "Set in observer Timestamp ${it.dateDeadline}")
+                    saveDeadlineDate(it.dateDeadline)
                 }
             })
         }
@@ -136,8 +173,8 @@ class ToDoItemDetailFragment : Fragment() {
     private fun showAlertDialog(text: String) = MaterialAlertDialogBuilder(requireContext())
         .setTitle("Ошибка при сохранении")
         .setMessage(text)
-        .setNegativeButton("Нет") { _, which -> navigateToToDoItemsTracker() }
-        .setPositiveButton("Да") { _, which -> forceCreateNewItem() }
+        .setPositiveButton("Да") { _, _ -> forceCreateNewItem() }
+        .setNegativeButton("Нет") { _, _ -> navigateToToDoItemsTracker() }
         .show()
 
 

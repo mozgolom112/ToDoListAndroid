@@ -1,6 +1,5 @@
 package ru.mozgolom112.todolistyaleto2022.todoitemdetail
 
-import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,29 +32,28 @@ class ToDoItemDetailViewModel(
     //Поля UI слоя
     private var _description: String = ""
     private var _priority: Int = 0
-    private var _dateDeadline: Long = -1L
+    private val _dateDeadline = MutableLiveData<Long>()
+    val dateDeadline: LiveData<Long>
+        get() = _dateDeadline
 
     fun onSaveItemClick() {
-        Log.i("ToDoItemDetailViewModel", "onSaveNewItemClicked")
         getUIFields()
-        Log.i("DetailViewModel", "${_currentToDoItem?.value}")
         viewModelScope.launch {
             if (_currentToDoItem.value == EMPTY_TODO_ITEM) {
                 //Insert item
                 Log.i("DetailViewModel", "Insert branch was called")
                 if (isDescriptionEmpty()) return@launch
-                val newToDoItem = ToDoItem(_description, _priority, _dateDeadline)
-                if(insertItem(newToDoItem)) return@launch
+                val newToDoItem = ToDoItem(_description, _priority, _dateDeadline?.value ?: -1)
+                if (insertItem(newToDoItem)) return@launch
             } else {
                 Log.i("DetailViewModel", "Update branch was called")
                 //Update item
                 //Тут важен порядок проверки. Сначала проверим есть ли такое дело в Room
                 //Далее необходимо ставить isInfoTheSame в проверке, так как при
                 //положительном ответе мы просто навигируемся обратно к Трекер листу
-                if (!isExistInRoom() || isInfoTheSame() || isDescriptionEmpty() ) return@launch
+                if (!isExistInRoom() || isInfoTheSame() || isDescriptionEmpty()) return@launch
                 setNewValues()
                 update(currentToDoItem.value)
-
             }
             _navigateToTracker.value = true
         }
@@ -64,7 +62,10 @@ class ToDoItemDetailViewModel(
     private fun getUIFields() {
         Log.i("ToDoItemDetailViewModel", "toDoItem is ${_currentToDoItem.value?.id ?: "empty"}")
         _getFieldsFlag.value = true
-        Log.i("ToDoItemDetailViewModel", "toDoItem is $_description $_dateDeadline $_priority")
+        Log.i(
+            "ToDoItemDetailViewModel",
+            "toDoItem is $_description ${_dateDeadline.value} $_priority"
+        )
         _getFieldsFlag.value = false
     }
 
@@ -80,7 +81,7 @@ class ToDoItemDetailViewModel(
     //Проверка изменяемых полей
     private fun isInfoTheSame(): Boolean =
         _currentToDoItem.value?.let {
-            if (_description == it.description && _priority == it.priority && _dateDeadline == it.dateDeadline) {
+            if (_description == it.description && _priority == it.priority && _dateDeadline.value == it.dateDeadline) {
                 _navigateToTracker.value = true
                 return true//Навигируемся обратно
             }
@@ -88,7 +89,7 @@ class ToDoItemDetailViewModel(
         } ?: false//Объект был null. Не использовать при создании элемента
 
     private suspend fun isExistInRoom(): Boolean {
-            _currentToDoItem.value?.let {
+        _currentToDoItem.value?.let {
             if (getToDoItem(it.id) == null) {
                 Log.i("DetailViewModel", "errorTextDescription")
                 _errorTextDescription.value = DetailErrors.UPDATE_NON_EXISTENT_ITEM
@@ -102,13 +103,14 @@ class ToDoItemDetailViewModel(
         _currentToDoItem.value?.let {
             it.description = _description
             it.priority = _priority
-            it.dateDeadline = _dateDeadline
+            it.dateDeadline = _dateDeadline.value ?: -1L
             it.dateModified = System.currentTimeMillis()
         }
     }
 
     private suspend fun ToDoItemDetailViewModel.insertItem(
-        newToDoItem: ToDoItem): Boolean {
+        newToDoItem: ToDoItem
+    ): Boolean {
         try {
             insert(newToDoItem)
         } catch (e: Exception) {
@@ -137,6 +139,8 @@ class ToDoItemDetailViewModel(
         database.getToDoItemByID(toDoItemId)
     }
 
+    //Click
+
     //Navigation
 
     private val _navigateToTracker = MutableLiveData<Boolean?>()
@@ -147,15 +151,19 @@ class ToDoItemDetailViewModel(
         _navigateToTracker.value = null
     }
 
-    //Support Flags
+    //Support func
     private val _getFieldsFlag = MutableLiveData<Boolean>(false)
     val getFieldsFlag: LiveData<Boolean>
         get() = _getFieldsFlag
 
-    fun getToDoItemFields(description: String, priority: Int, dateDeadline: Long) {
+    fun getToDoItemFields(description: String, priority: Int) {
         _description = description
         _priority = priority
-        _dateDeadline = dateDeadline
+    }
+
+    fun saveDeadlineDate(timestamp: Long) {
+        _dateDeadline.value = timestamp//Date(year, month, day).time
+        Log.i("Calendar", "Timestamp in ViewModel ${_dateDeadline.value}")
     }
 
     //Errors
@@ -167,7 +175,7 @@ class ToDoItemDetailViewModel(
         _errorTextDescription.value = DetailErrors.EMPTY_ERROR
     }
 
-    fun forceRemoveItemID(){
+    fun forceRemoveItemID() {
         //Мы автоматически теряем все данные, которые пришли нам из Tracker
         //Т.е. мы теряем ID, status, время создания и время изменения
         _currentToDoItem.value = EMPTY_TODO_ITEM
