@@ -76,30 +76,35 @@ class ToDoItemDetailFragment : Fragment() {
     private fun setClickListeners(binding: FragmentToDoItemDetailBinding) {
         binding.apply {
             switchSetDeadline.setOnClickListener() {
-                Log.i("DetailFragment", "Current state is ${switchSetDeadline.isChecked}")
-                //timestamp = -1L
-                if (switchSetDeadline.isChecked) {
-                    val c = Calendar.getInstance()
-                    val year = c.get(Calendar.YEAR)
-                    val month = c.get(Calendar.MONTH)
-                    val day = c.get(Calendar.DAY_OF_MONTH)
-                    val dpd = DatePickerDialog(
-                        requireActivity(),
-                        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                            c.set(year, monthOfYear, dayOfMonth)
-                            val timestamp = c.timeInMillis
-                            detailViewModel.saveDeadlineDate(timestamp)
-                        }, year, month, day
-                    )
-                    dpd.setOnCancelListener() { switchSetDeadline.isChecked = false }
-                    dpd.show()
-                } else {
-                    Log.i("Calendar", "Set NO_DEADLINE Timestamp")
-                    detailViewModel.saveDeadlineDate(NO_DEADLINE)
-                }
-
-
+                showDatePicker(){ switchSetDeadline.isChecked = false }
             }
+            txtDateOfDeadline.setOnClickListener(){
+                showDatePicker()
+            }
+        }
+    }
+
+    private fun FragmentToDoItemDetailBinding.showDatePicker(onCancelListener: ()->Unit = {}) {
+        Log.i("DetailFragment", "Current state is ${switchSetDeadline.isChecked}")
+        //timestamp = -1L
+        if (switchSetDeadline.isChecked) {
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+            val dpd = DatePickerDialog(
+                requireActivity(),
+                DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    c.set(year, monthOfYear, dayOfMonth)
+                    val timestamp = c.timeInMillis
+                    detailViewModel.saveDeadlineDate(timestamp)
+                }, year, month, day
+            )
+            dpd.setOnCancelListener() { onCancelListener() }
+            dpd.show()
+        } else {
+            Log.i("Calendar", "Set NO_DEADLINE Timestamp")
+            detailViewModel.saveDeadlineDate(NO_DEADLINE)
         }
     }
 

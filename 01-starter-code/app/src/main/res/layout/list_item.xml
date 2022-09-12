@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="toDoItem"
+            type="ru.mozgolom112.todolistyaleto2022.database.ToDoItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/checkBoxState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:isChecked="@{toDoItem.completed}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelImportant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="!!"
+            android:textColor="@color/ya_Red"
+            android:textSize="18dp"
+            app:showPriority="@{toDoItem.priority}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/checkBoxState"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:textColor="@color/ya_Primary_Label"
+            android:id="@+id/txtTaskShort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            android:breakStrategy="simple"
+            android:ellipsize="end"
+            android:maxLines="3"
+            app:setShortText="@{toDoItem.description}"
+            app:layout_constraintBottom_toBottomOf="@+id/checkBoxState"
+            app:layout_constraintEnd_toStartOf="@+id/btnInfo"
+            app:layout_constraintStart_toEndOf="@+id/labelImportant"
+            app:layout_constraintTop_toTopOf="@+id/checkBoxState"
+            tools:text="рдд"></TextView>
+
+        <TextView
+            android:id="@+id/txtDeadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/ya_Blue"
+            app:dealineDate="@{toDoItem.dateDeadline}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/txtTaskShort"
+            app:layout_constraintTop_toBottomOf="@+id/txtTaskShort"
+            tools:text="22 октября 2022"
+            tools:visibility="visible"></TextView>
+
+        <ImageButton
+            android:id="@+id/btnInfo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="16dp"
+            android:background="@color/ya_White"
+            android:src="@drawable/ic_baseline_info_24"
+            app:layout_constraintBottom_toBottomOf="@+id/checkBoxState"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/checkBoxState" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

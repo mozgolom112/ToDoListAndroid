@@ -168,7 +168,8 @@
                         android:layout_marginEnd="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/txtLabelDoUntil" />
+                        app:layout_constraintTop_toTopOf="@+id/txtLabelDoUntil"
+                        app:isSwitchChecked="@{viewModel.dateDeadline}"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
