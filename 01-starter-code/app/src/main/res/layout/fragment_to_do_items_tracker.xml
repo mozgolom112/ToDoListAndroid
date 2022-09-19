@@ -7,7 +7,7 @@
 
         <variable
             name="trackerViewModel"
-            type="ru.mozgolom112.todolistyaleto2022.todoitemstracker.ToDoItemsTrackerViewModel" />
+            type="ru.mozgolom112.todolistyaleto2022.ui.todoitemstracker.viewmodel.ToDoItemsTrackerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

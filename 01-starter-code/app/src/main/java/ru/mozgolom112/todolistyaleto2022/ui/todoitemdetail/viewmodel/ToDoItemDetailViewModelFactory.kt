@@ -1,4 +1,4 @@
-package ru.mozgolom112.todolistyaleto2022.todoitemdetail
+package ru.mozgolom112.todolistyaleto2022.ui.todoitemdetail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

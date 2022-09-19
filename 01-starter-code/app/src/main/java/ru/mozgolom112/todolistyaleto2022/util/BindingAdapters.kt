@@ -1,14 +1,17 @@
-package ru.mozgolom112.todolistyaleto2022
+@file:JvmName("BindingAdaptersKt")
+package ru.mozgolom112.todolistyaleto2022.util
 
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.switchmaterial.SwitchMaterial
+import ru.mozgolom112.todolistyaleto2022.R
 import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
-import ru.mozgolom112.todolistyaleto2022.todoitemstracker.ToDoItemAdapter
+import ru.mozgolom112.todolistyaleto2022.adapters.ToDoItemAdapter
 import java.util.*
 
 val MONTH = listOf(
@@ -31,6 +34,7 @@ enum class Priority(value: Int, text: String){
     NONE(0,"Нет"),
     LOW(1,"Низкий")
 }
+
 
 //Выпадает ошибка, если использовать его
 @BindingAdapter("listData")
@@ -62,6 +66,18 @@ fun bindDate(textView: TextView, _date: Long) {
 @BindingAdapter("isChecked")
 fun isChecked(checkBox: CheckBox, _state: Boolean){
     checkBox.isChecked = _state
+}
+
+@BindingAdapter("isEnable")
+fun isChecked(btn: Button, id: String?){
+    Log.i("isEnable","$id")
+    btn.isEnabled = id != null
+    //TODO(Исправить на использование темы)
+    if (btn.isEnabled){
+        btn.alpha = 1.0F
+    } else {
+        btn.alpha = 0.12F
+    }
 }
 
 @BindingAdapter("isSwitchChecked")

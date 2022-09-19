@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="ru.mozgolom112.todolistyaleto2022.todoitemdetail.ToDoItemDetailViewModel" />
+            type="ru.mozgolom112.todolistyaleto2022.ui.todoitemdetail.viewmodel.ToDoItemDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,6 +37,7 @@
             android:src="@drawable/ic_xmark"
             app:layout_constraintBottom_toBottomOf="@+id/btnSave"
             app:layout_constraintStart_toStartOf="parent"
+            android:onClick="@{() -> viewModel.makeNavigationToTracker(true)}"
             app:layout_constraintTop_toTopOf="@+id/btnSave"></ImageButton>
 
         <ScrollView
@@ -149,13 +150,13 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:visibility="invisible"
                         android:id="@+id/txtDateOfDeadline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="4dp"
                         android:textColor="@color/ya_Blue"
+                        android:visibility="invisible"
                         app:dealineDate="@{viewModel.dateDeadline}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/txtLabelDoUntil"
@@ -166,10 +167,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
+                        app:isSwitchChecked="@{viewModel.dateDeadline}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/txtLabelDoUntil"
-                        app:isSwitchChecked="@{viewModel.dateDeadline}"/>
+                        app:layout_constraintTop_toTopOf="@+id/txtLabelDoUntil" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -199,6 +200,10 @@
             app:icon="@drawable/ic_trash_can"
             app:iconSize="20dp"
             app:iconTint="@color/ya_Red"
+            android:onClick="@{()->viewModel.onDeleteItemClick()}"
+            app:isEnable="@{viewModel.currentToDoItem.id}"
+            android:theme="@style/AccentButton"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/scrollView" />

@@ -1,4 +1,4 @@
-package ru.mozgolom112.todolistyaleto2022.todoitemdetail
+package ru.mozgolom112.todolistyaleto2022.ui.todoitemdetail
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -16,11 +16,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import ru.mozgolom112.todolistyaleto2022.MONTH
 import ru.mozgolom112.todolistyaleto2022.R
 import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabase
 import ru.mozgolom112.todolistyaleto2022.databinding.FragmentToDoItemDetailBinding
+import ru.mozgolom112.todolistyaleto2022.ui.todoitemdetail.viewmodel.DetailErrors
+import ru.mozgolom112.todolistyaleto2022.ui.todoitemdetail.viewmodel.ToDoItemDetailViewModel
+import ru.mozgolom112.todolistyaleto2022.ui.todoitemdetail.viewmodel.ToDoItemDetailViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -75,16 +77,16 @@ class ToDoItemDetailFragment : Fragment() {
 
     private fun setClickListeners(binding: FragmentToDoItemDetailBinding) {
         binding.apply {
-            switchSetDeadline.setOnClickListener() {
-                showDatePicker(){ switchSetDeadline.isChecked = false }
+            switchSetDeadline.setOnClickListener {
+                showDatePicker() { switchSetDeadline.isChecked = false }
             }
-            txtDateOfDeadline.setOnClickListener(){
+            txtDateOfDeadline.setOnClickListener {
                 showDatePicker()
             }
         }
     }
 
-    private fun FragmentToDoItemDetailBinding.showDatePicker(onCancelListener: ()->Unit = {}) {
+    private fun FragmentToDoItemDetailBinding.showDatePicker(onCancelListener: () -> Unit = {}) {
         Log.i("DetailFragment", "Current state is ${switchSetDeadline.isChecked}")
         //timestamp = -1L
         if (switchSetDeadline.isChecked) {

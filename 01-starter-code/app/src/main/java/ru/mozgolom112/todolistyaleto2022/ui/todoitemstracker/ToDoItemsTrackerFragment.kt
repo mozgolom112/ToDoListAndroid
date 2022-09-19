@@ -1,4 +1,4 @@
-package ru.mozgolom112.todolistyaleto2022.todoitemstracker
+package ru.mozgolom112.todolistyaleto2022.ui.todoitemstracker
 
 import android.os.Bundle
 import android.util.Log
@@ -13,10 +13,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.mozgolom112.todolistyaleto2022.R
+import ru.mozgolom112.todolistyaleto2022.adapters.ToDoItemAdapter
 import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabase
 import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabaseDao
 import ru.mozgolom112.todolistyaleto2022.databinding.FragmentToDoItemsTrackerBinding
+import ru.mozgolom112.todolistyaleto2022.ui.todoitemstracker.viewmodel.ToDoItemsTrackerViewModel
+import ru.mozgolom112.todolistyaleto2022.ui.todoitemstracker.viewmodel.ToDoItemsTrackerViewModelFactory
 
 class ToDoItemsTrackerFragment : Fragment() {
 
@@ -26,10 +29,16 @@ class ToDoItemsTrackerFragment : Fragment() {
     }
 
     private val toDoItemAdapter: ToDoItemAdapter by lazy {
-        val clickListener = ToDoItemAdapter.OnItemClickListener() { selectedItem ->
+        val infoClick = ToDoItemAdapter.InfoClickListener() { selectedItem ->
             toDoItemsTrackerViewModel.navigateToItemDetails(selectedItem)
         }
-        ToDoItemAdapter(clickListener)
+        val checkBoxClick = ToDoItemAdapter.CheckBoxStateClickListener() {selectedItem ->
+            toDoItemsTrackerViewModel.changeItemState(selectedItem)
+            val position = toDoItemAdapter.currentList.indexOf(selectedItem)
+            toDoItemAdapter.notifyItemChanged(position) //для обновления анимации элемента в recycleview
+
+        }
+        ToDoItemAdapter(infoClick, checkBoxClick)
     }
 
     private fun initTrackerViewModel(): ToDoItemsTrackerViewModel {
@@ -37,9 +46,6 @@ class ToDoItemsTrackerFragment : Fragment() {
         val dataSource: ToDoListDatabaseDao =
             ToDoListDatabase.getInstance(application).toDoListDatabaseDao
         val viewModelFactory = ToDoItemsTrackerViewModelFactory(dataSource, application)
-        //Simple
-        //return ViewModelProvider(this, viewModelFactory).get(ToDoItemsTrackerViewModel::class.java)
-        //Cool
         val trackerViewModel: ToDoItemsTrackerViewModel by viewModels { viewModelFactory }
         return trackerViewModel
     }
@@ -75,13 +81,18 @@ class ToDoItemsTrackerFragment : Fragment() {
         DataBindingUtil.inflate(inflater, R.layout.fragment_to_do_items_tracker, container, false)
 
     private fun setObservers() {
+        var isListSumbitted = false
         toDoItemsTrackerViewModel.apply {
             navigateToDetails.observe(viewLifecycleOwner, Observer { hasNavigated ->
                 if (hasNavigated == true) navigateToDetails(itemToDetails)
             })
             toDoItems.observe(viewLifecycleOwner, Observer { items ->
-                items?.let{
-                    toDoItemAdapter.submitList(items)
+                if (!isListSumbitted){
+                    items?.let {
+                        //TODO("Проверить, что при изменеии списка элементов, все отрабатывается корректно, например при удалении элемента из списка")
+                        toDoItemAdapter.submitList(items)
+                        isListSumbitted = true  //чтобы submit произошел лишь однажды
+                    }
                 }
             })
         }

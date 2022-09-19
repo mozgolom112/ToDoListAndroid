@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/toDoItemsTrackerFragment"
-        android:name="ru.mozgolom112.todolistyaleto2022.todoitemstracker.ToDoItemsTrackerFragment"
+        android:name="ru.mozgolom112.todolistyaleto2022.ui.todoitemstracker.ToDoItemsTrackerFragment"
         android:label="ToDoItemsTrackerFragment">
         <action
             android:id="@+id/actionToDoItemsTrackerFragmentToToDoItemDetailFragment"
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/toDoItemDetailFragment"
-        android:name="ru.mozgolom112.todolistyaleto2022.todoitemdetail.ToDoItemDetailFragment"
+        android:name="ru.mozgolom112.todolistyaleto2022.ui.todoitemdetail.ToDoItemDetailFragment"
         android:label="ToDoItemDetailFragment">
         <action
             android:id="@+id/actionToDoItemDetailFragmentToToDoItemsTrackerFragment"

@@ -1,4 +1,4 @@
-package ru.mozgolom112.todolistyaleto2022.todoitemdetail
+package ru.mozgolom112.todolistyaleto2022.ui.todoitemdetail.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabaseDao
-import ru.mozgolom112.todolistyaleto2022.todoitemstracker.EMPTY_TODO_ITEM
+import ru.mozgolom112.todolistyaleto2022.ui.todoitemstracker.viewmodel.EMPTY_TODO_ITEM
 
 const val EMPTY_STRING = ""
 
@@ -55,7 +55,7 @@ class ToDoItemDetailViewModel(
                 setNewValues()
                 update(currentToDoItem.value)
             }
-            _navigateToTracker.value = true
+            makeNavigationToTracker(true)
         }
     }
 
@@ -82,7 +82,7 @@ class ToDoItemDetailViewModel(
     private fun isInfoTheSame(): Boolean =
         _currentToDoItem.value?.let {
             if (_description == it.description && _priority == it.priority && _dateDeadline.value == it.dateDeadline) {
-                _navigateToTracker.value = true
+                makeNavigationToTracker(true)
                 return true//Навигируемся обратно
             }
             return false//Информация разлчна, необходимо сохранить новые данные
@@ -108,7 +108,7 @@ class ToDoItemDetailViewModel(
         }
     }
 
-    private suspend fun ToDoItemDetailViewModel.insertItem(
+    private suspend fun insertItem(
         newToDoItem: ToDoItem
     ): Boolean {
         try {
@@ -118,6 +118,18 @@ class ToDoItemDetailViewModel(
             return true
         }
         return false
+    }
+
+    fun onDeleteItemClick() = viewModelScope.launch {
+        try {
+            _currentToDoItem.value?.let {
+                delete(it)
+                _currentToDoItem.value = EMPTY_TODO_ITEM
+            }
+            makeNavigationToTracker(true)
+        } catch (e: Exception) {
+            Log.e("onDeleteClick", "Exception $e")
+        }
     }
 
     //Database
@@ -135,6 +147,11 @@ class ToDoItemDetailViewModel(
         }
     }
 
+    private suspend fun delete(item: ToDoItem) = withContext(Dispatchers.IO) {
+        database.deleteToDoItemByID(item.id)
+        Log.i("onDeleteClick", "item was deleted")
+    }
+
     private suspend fun getToDoItem(toDoItemId: String): ToDoItem? = withContext(Dispatchers.IO) {
         database.getToDoItemByID(toDoItemId)
     }
@@ -149,6 +166,10 @@ class ToDoItemDetailViewModel(
 
     fun doneNavigating() {
         _navigateToTracker.value = null
+    }
+
+    fun makeNavigationToTracker(isNeedNavigate: Boolean) {
+        _navigateToTracker.value = isNeedNavigate
     }
 
     //Support func

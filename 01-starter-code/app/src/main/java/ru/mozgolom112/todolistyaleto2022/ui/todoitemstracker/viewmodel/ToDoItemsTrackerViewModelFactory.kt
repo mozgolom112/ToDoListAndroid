@@ -1,4 +1,4 @@
-package ru.mozgolom112.todolistyaleto2022.todoitemstracker
+package ru.mozgolom112.todolistyaleto2022.ui.todoitemstracker.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
