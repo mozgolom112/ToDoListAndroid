@@ -6,9 +6,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.UUID
 
-@kotlinx.parcelize.Parcelize
 @Entity(tableName = "to_do_items")
-data class ToDoItem(
+data class ToDoItemDatabase(
     @ColumnInfo(name = "description")
     var description: String,
     @ColumnInfo(name = "priority")
@@ -25,5 +24,5 @@ data class ToDoItem(
     var id: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "date_create")
     var dateCreate: Long = System.currentTimeMillis(),
-) : Parcelable
+)
 

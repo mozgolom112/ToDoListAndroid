@@ -7,7 +7,7 @@
 
         <variable
             name="toDoItem"
-            type="ru.mozgolom112.todolistyaleto2022.database.ToDoItem" />
+            type="ru.mozgolom112.todolistyaleto2022.domain.ToDoItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -9,21 +9,25 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
-import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabaseDao
-import java.lang.Exception
+import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabase
+import ru.mozgolom112.todolistyaleto2022.domain.ToDoItem
+import ru.mozgolom112.todolistyaleto2022.repository.ToDoItemRepository
+import ru.mozgolom112.todolistyaleto2022.util.asDatabaseModel
 
 val EMPTY_TODO_ITEM = null
 
 class ToDoItemsTrackerViewModel(
-    val database: ToDoListDatabaseDao,
     application: Application
-) : AndroidViewModel(application) {
+) : AndroidViewModel(application) { //Оставил пока в качестве примера, но лучше использовать просто ViewModel
 
-    private val _toDoItems = database.getAllItems()
+    init {
+        Log.i("ToDoItemTrackerViewModel", "ToDoItemDetailViewModel was init")
+    }
 
-    val toDoItems: LiveData<List<ToDoItem>?>
-        get() = _toDoItems
+    private val db by lazy(Dispatchers.IO) { ToDoListDatabase.getInstance(application.applicationContext) }
+    private val repository by lazy(Dispatchers.IO) { ToDoItemRepository(db) }
+
+    val toDoItemsDatabase = repository.toDoItems
 
     //Navigation
     private val _navigateToDetails = MutableLiveData<Boolean?>(false)
@@ -65,7 +69,7 @@ class ToDoItemsTrackerViewModel(
     private suspend fun updateItemState(item: ToDoItem) = withContext(Dispatchers.IO) {
         item.isCompleted = !item.isCompleted //меняем на противоположный
         item.dateModified = System.currentTimeMillis()
-        database.updateToDoItem(item)
+        db.toDoListDatabaseDao.updateToDoItem(item.asDatabaseModel())
         Log.i("ToDoItemsTrackerViewModel", "Item $item обновил состояние на ${item.isCompleted}")
     }
 }

@@ -5,29 +5,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.*
-import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import ru.mozgolom112.todolistyaleto2022.database.ToDoItemDatabase
 import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabaseDao
+import ru.mozgolom112.todolistyaleto2022.domain.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.ui.todoitemstracker.viewmodel.EMPTY_TODO_ITEM
-
-const val EMPTY_STRING = ""
-
-enum class DetailErrors(val text: String) {
-    EMPTY_ERROR(""),
-    EMPTY_DESCRIPTION_ERROR("Пожалуйста, добавьте текст задачи. Он не может быть пустым"),
-    INSERT_UNIQUE_ITEM_ERROR("Упс! Дело с таким ID уже существует. Явно произошла какая-то ошибка. Вы все равно хотите создать дело? Да | Нет"),
-    UPDATE_NON_EXISTENT_ITEM("В базе данных дела с таким ID больше не существует. Возможно он уже был удален. Хотите создать новое дело? Да | Нет")
-}
+import ru.mozgolom112.todolistyaleto2022.util.DetailErrors
+import ru.mozgolom112.todolistyaleto2022.util.EMPTY_STRING
+import ru.mozgolom112.todolistyaleto2022.util.asDatabaseModel
+import ru.mozgolom112.todolistyaleto2022.util.asDomainModel
 
 class ToDoItemDetailViewModel(
     selectedDoItem: ToDoItem?,
     private val database: ToDoListDatabaseDao
 ) : ViewModel() {
 
-
-    private var _currentToDoItem = MutableLiveData<ToDoItem?>(selectedDoItem)
-    val currentToDoItem: LiveData<ToDoItem?>
-        get() = _currentToDoItem
+    private var _currentToDoItemDatabase = MutableLiveData<ToDoItem?>(selectedDoItem)
+    val currentToDoItemDatabase: LiveData<ToDoItem?>
+        get() = _currentToDoItemDatabase
 
     //Поля UI слоя
     private var _description: String = ""
@@ -39,12 +36,13 @@ class ToDoItemDetailViewModel(
     fun onSaveItemClick() {
         getUIFields()
         viewModelScope.launch {
-            if (_currentToDoItem.value == EMPTY_TODO_ITEM) {
+            if (_currentToDoItemDatabase.value == EMPTY_TODO_ITEM) {
                 //Insert item
                 Log.i("DetailViewModel", "Insert branch was called")
                 if (isDescriptionEmpty()) return@launch
-                val newToDoItem = ToDoItem(_description, _priority, _dateDeadline?.value ?: -1)
-                if (insertItem(newToDoItem)) return@launch
+                val newToDoItemDatabase =
+                    ToDoItem(_description, _priority, _dateDeadline?.value ?: -1)
+                if (insertItem(newToDoItemDatabase)) return@launch
             } else {
                 Log.i("DetailViewModel", "Update branch was called")
                 //Update item
@@ -53,14 +51,17 @@ class ToDoItemDetailViewModel(
                 //положительном ответе мы просто навигируемся обратно к Трекер листу
                 if (!isExistInRoom() || isInfoTheSame() || isDescriptionEmpty()) return@launch
                 setNewValues()
-                update(currentToDoItem.value)
+                updateItem(currentToDoItemDatabase.value)
             }
             makeNavigationToTracker(true)
         }
     }
 
     private fun getUIFields() {
-        Log.i("ToDoItemDetailViewModel", "toDoItem is ${_currentToDoItem.value?.id ?: "empty"}")
+        Log.i(
+            "ToDoItemDetailViewModel",
+            "toDoItem is ${_currentToDoItemDatabase.value?.id ?: "empty"}"
+        )
         _getFieldsFlag.value = true
         Log.i(
             "ToDoItemDetailViewModel",
@@ -80,7 +81,7 @@ class ToDoItemDetailViewModel(
 
     //Проверка изменяемых полей
     private fun isInfoTheSame(): Boolean =
-        _currentToDoItem.value?.let {
+        _currentToDoItemDatabase.value?.let {
             if (_description == it.description && _priority == it.priority && _dateDeadline.value == it.dateDeadline) {
                 makeNavigationToTracker(true)
                 return true//Навигируемся обратно
@@ -89,7 +90,7 @@ class ToDoItemDetailViewModel(
         } ?: false//Объект был null. Не использовать при создании элемента
 
     private suspend fun isExistInRoom(): Boolean {
-        _currentToDoItem.value?.let {
+        _currentToDoItemDatabase.value?.let {
             if (getToDoItem(it.id) == null) {
                 Log.i("DetailViewModel", "errorTextDescription")
                 _errorTextDescription.value = DetailErrors.UPDATE_NON_EXISTENT_ITEM
@@ -100,7 +101,7 @@ class ToDoItemDetailViewModel(
     }
 
     private fun setNewValues() {
-        _currentToDoItem.value?.let {
+        _currentToDoItemDatabase.value?.let {
             it.description = _description
             it.priority = _priority
             it.dateDeadline = _dateDeadline.value ?: -1L
@@ -112,7 +113,7 @@ class ToDoItemDetailViewModel(
         newToDoItem: ToDoItem
     ): Boolean {
         try {
-            insert(newToDoItem)
+            insert(newToDoItem.asDatabaseModel())
         } catch (e: Exception) {
             _errorTextDescription.value = DetailErrors.INSERT_UNIQUE_ITEM_ERROR
             return true
@@ -120,11 +121,14 @@ class ToDoItemDetailViewModel(
         return false
     }
 
+    private suspend fun updateItem(updatedToDoItem: ToDoItem?) =
+        update(updatedToDoItem?.asDatabaseModel())
+
     fun onDeleteItemClick() = viewModelScope.launch {
         try {
-            _currentToDoItem.value?.let {
-                delete(it)
-                _currentToDoItem.value = EMPTY_TODO_ITEM
+            _currentToDoItemDatabase.value?.let {
+                delete(it.asDatabaseModel())
+                _currentToDoItemDatabase.value = EMPTY_TODO_ITEM
             }
             makeNavigationToTracker(true)
         } catch (e: Exception) {
@@ -134,11 +138,11 @@ class ToDoItemDetailViewModel(
 
     //Database
 
-    private suspend fun insert(item: ToDoItem?) = withContext(Dispatchers.IO) {
+    private suspend fun insert(item: ToDoItemDatabase?) = withContext(Dispatchers.IO) {
         item?.let { database.insertToDoItem(it) } ?: throw Error("Попытка добавить пустой элемент")
     }
 
-    private suspend fun update(item: ToDoItem?) = withContext(Dispatchers.IO) {
+    private suspend fun update(item: ToDoItemDatabase?) = withContext(Dispatchers.IO) {
         try {
             item?.let { database.updateToDoItem(it) }
                 ?: throw Error("Попытка обновить пустой элемент")
@@ -147,13 +151,13 @@ class ToDoItemDetailViewModel(
         }
     }
 
-    private suspend fun delete(item: ToDoItem) = withContext(Dispatchers.IO) {
+    private suspend fun delete(item: ToDoItemDatabase) = withContext(Dispatchers.IO) {
         database.deleteToDoItemByID(item.id)
         Log.i("onDeleteClick", "item was deleted")
     }
 
     private suspend fun getToDoItem(toDoItemId: String): ToDoItem? = withContext(Dispatchers.IO) {
-        database.getToDoItemByID(toDoItemId)
+        database.getToDoItemByID(toDoItemId)?.asDomainModel()
     }
 
     //Click
@@ -199,6 +203,6 @@ class ToDoItemDetailViewModel(
     fun forceRemoveItemID() {
         //Мы автоматически теряем все данные, которые пришли нам из Tracker
         //Т.е. мы теряем ID, status, время создания и время изменения
-        _currentToDoItem.value = EMPTY_TODO_ITEM
+        _currentToDoItemDatabase.value = EMPTY_TODO_ITEM
     }
 }

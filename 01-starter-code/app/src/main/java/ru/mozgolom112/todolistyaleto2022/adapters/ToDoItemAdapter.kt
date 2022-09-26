@@ -2,8 +2,8 @@ package ru.mozgolom112.todolistyaleto2022.adapters
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.adapters.DiffCallback.ToDoItemDiffCallback
+import ru.mozgolom112.todolistyaleto2022.domain.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.viewholders.ItemViewHolder
 
 class ToDoItemAdapter(

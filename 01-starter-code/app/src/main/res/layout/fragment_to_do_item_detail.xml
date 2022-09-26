@@ -201,7 +201,7 @@
             app:iconSize="20dp"
             app:iconTint="@color/ya_Red"
             android:onClick="@{()->viewModel.onDeleteItemClick()}"
-            app:isEnable="@{viewModel.currentToDoItem.id}"
+            app:isEnable="@{viewModel.currentToDoItemDatabase.id}"
             android:theme="@style/AccentButton"
 
             app:layout_constraintBottom_toBottomOf="parent"

@@ -17,12 +17,13 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import ru.mozgolom112.todolistyaleto2022.R
-import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
+import ru.mozgolom112.todolistyaleto2022.database.ToDoItemDatabase
 import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabase
 import ru.mozgolom112.todolistyaleto2022.databinding.FragmentToDoItemDetailBinding
-import ru.mozgolom112.todolistyaleto2022.ui.todoitemdetail.viewmodel.DetailErrors
+import ru.mozgolom112.todolistyaleto2022.domain.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.ui.todoitemdetail.viewmodel.ToDoItemDetailViewModel
 import ru.mozgolom112.todolistyaleto2022.ui.todoitemdetail.viewmodel.ToDoItemDetailViewModelFactory
+import ru.mozgolom112.todolistyaleto2022.util.DetailErrors
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -63,7 +64,6 @@ class ToDoItemDetailFragment : Fragment() {
         DataBindingUtil.inflate(inflater, R.layout.fragment_to_do_item_detail, container, false)
 
     private fun fulfillBinding(binding: FragmentToDoItemDetailBinding) {
-
         binding.apply {
             viewModel = this@ToDoItemDetailFragment.detailViewModel
             lifecycleOwner = viewLifecycleOwner
@@ -85,6 +85,7 @@ class ToDoItemDetailFragment : Fragment() {
             }
         }
     }
+
 
     private fun FragmentToDoItemDetailBinding.showDatePicker(onCancelListener: () -> Unit = {}) {
         Log.i("DetailFragment", "Current state is ${switchSetDeadline.isChecked}")
@@ -131,7 +132,7 @@ class ToDoItemDetailFragment : Fragment() {
                 showDialog(err)
 
             })
-            currentToDoItem.observe(viewLifecycleOwner, Observer { toDoItem ->
+            currentToDoItemDatabase.observe(viewLifecycleOwner, Observer { toDoItem ->
                 Log.i("ToDoItemDetailFragment", "currentToDoItem set ")
                 toDoItem?.let {
                     Log.i("ToDoItemDetailFragment", "currentToDoItem not empty ")

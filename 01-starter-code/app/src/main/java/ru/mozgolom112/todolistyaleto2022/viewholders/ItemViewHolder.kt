@@ -3,9 +3,9 @@ package ru.mozgolom112.todolistyaleto2022.viewholders
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
-import ru.mozgolom112.todolistyaleto2022.databinding.ListItemBinding
 import ru.mozgolom112.todolistyaleto2022.adapters.ToDoItemAdapter
+import ru.mozgolom112.todolistyaleto2022.databinding.ListItemBinding
+import ru.mozgolom112.todolistyaleto2022.domain.ToDoItem
 
 class ItemViewHolder private constructor(private val binding: ListItemBinding) :
     RecyclerView.ViewHolder(binding.root) {

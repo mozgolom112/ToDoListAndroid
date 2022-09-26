@@ -7,15 +7,15 @@ import androidx.room.*
 interface ToDoListDatabaseDao {
     //Вставить запись
     @Insert
-    fun insertToDoItem(toDoItem: ToDoItem)
+    fun insertToDoItem(toDoItemDatabase: ToDoItemDatabase)
 
     //Обновить запись
     @Update
-    fun updateToDoItem(toDoItem: ToDoItem)
+    fun updateToDoItem(toDoItemDatabase: ToDoItemDatabase)
 
     //Удалить записи по списку
     @Delete
-    fun deleteToDoItems(toDoItems: List<ToDoItem>)
+    fun deleteToDoItems(toDoItemDatabases: List<ToDoItemDatabase>)
 
     //Удалить по id записи
     @Query("DELETE FROM to_do_items WHERE to_do_item_id = :id")
@@ -27,9 +27,9 @@ interface ToDoListDatabaseDao {
 
     //Получить запись
     @Query("SELECT * FROM to_do_items WHERE to_do_item_id = :id")
-    fun getToDoItemByID(id: String): ToDoItem?
+    fun getToDoItemByID(id: String): ToDoItemDatabase?
 
     //Получить весь список
     @Query("SELECT * FROM to_do_items ORDER BY date_create")
-    fun getAllItems(): LiveData<List<ToDoItem>?>
+    fun getAllItems(): LiveData<List<ToDoItemDatabase>?>
 }

@@ -11,10 +11,11 @@
         <action
             android:id="@+id/actionToDoItemsTrackerFragmentToToDoItemDetailFragment"
             app:destination="@id/toDoItemDetailFragment"
-            app:enterAnim="@anim/nav_default_enter_anim" >
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:launchSingleTop="true">
             <argument
                 android:name="selectedToDoItem"
-                app:argType="ru.mozgolom112.todolistyaleto2022.database.ToDoItem"
+                app:argType="ru.mozgolom112.todolistyaleto2022.domain.ToDoItem"
                 app:nullable="true" />
         </action>
     </fragment>
@@ -25,11 +26,12 @@
         <action
             android:id="@+id/actionToDoItemDetailFragmentToToDoItemsTrackerFragment"
             app:destination="@id/toDoItemsTrackerFragment"
+            app:launchSingleTop="false"
             app:popUpTo="@id/toDoItemDetailFragment"
             app:popUpToInclusive="true" />
         <argument
             android:name="selectedToDoItem"
-            app:argType="ru.mozgolom112.todolistyaleto2022.database.ToDoItem"
+            app:argType="ru.mozgolom112.todolistyaleto2022.domain.ToDoItem"
             app:nullable="true" />
     </fragment>
 </navigation>

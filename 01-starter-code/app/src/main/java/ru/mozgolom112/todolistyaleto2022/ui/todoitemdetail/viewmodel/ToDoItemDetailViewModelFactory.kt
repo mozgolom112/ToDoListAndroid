@@ -2,8 +2,8 @@ package ru.mozgolom112.todolistyaleto2022.ui.todoitemdetail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabaseDao
+import ru.mozgolom112.todolistyaleto2022.domain.ToDoItem
 
 class ToDoItemDetailViewModelFactory(
     private val selectedToDoItem: ToDoItem?,

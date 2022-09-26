@@ -9,9 +9,8 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.switchmaterial.SwitchMaterial
-import ru.mozgolom112.todolistyaleto2022.R
-import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.adapters.ToDoItemAdapter
+import ru.mozgolom112.todolistyaleto2022.domain.ToDoItem
 import java.util.*
 
 val MONTH = listOf(

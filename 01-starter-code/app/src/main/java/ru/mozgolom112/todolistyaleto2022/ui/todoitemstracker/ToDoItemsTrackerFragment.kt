@@ -14,10 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.mozgolom112.todolistyaleto2022.R
 import ru.mozgolom112.todolistyaleto2022.adapters.ToDoItemAdapter
-import ru.mozgolom112.todolistyaleto2022.database.ToDoItem
-import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabase
-import ru.mozgolom112.todolistyaleto2022.database.ToDoListDatabaseDao
 import ru.mozgolom112.todolistyaleto2022.databinding.FragmentToDoItemsTrackerBinding
+import ru.mozgolom112.todolistyaleto2022.domain.ToDoItem
 import ru.mozgolom112.todolistyaleto2022.ui.todoitemstracker.viewmodel.ToDoItemsTrackerViewModel
 import ru.mozgolom112.todolistyaleto2022.ui.todoitemstracker.viewmodel.ToDoItemsTrackerViewModelFactory
 
@@ -36,16 +34,13 @@ class ToDoItemsTrackerFragment : Fragment() {
             toDoItemsTrackerViewModel.changeItemState(selectedItem)
             val position = toDoItemAdapter.currentList.indexOf(selectedItem)
             toDoItemAdapter.notifyItemChanged(position) //для обновления анимации элемента в recycleview
-
         }
         ToDoItemAdapter(infoClick, checkBoxClick)
     }
 
     private fun initTrackerViewModel(): ToDoItemsTrackerViewModel {
         val application = requireNotNull(this.activity).application
-        val dataSource: ToDoListDatabaseDao =
-            ToDoListDatabase.getInstance(application).toDoListDatabaseDao
-        val viewModelFactory = ToDoItemsTrackerViewModelFactory(dataSource, application)
+        val viewModelFactory = ToDoItemsTrackerViewModelFactory(application)
         val trackerViewModel: ToDoItemsTrackerViewModel by viewModels { viewModelFactory }
         return trackerViewModel
     }
@@ -55,6 +50,7 @@ class ToDoItemsTrackerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.i("ToDoItemsTrackerFragment", "onCreateView")
         val binding: FragmentToDoItemsTrackerBinding = initBinding(inflater, container)
         fulfillBinding(binding)
         setObservers()
@@ -86,7 +82,7 @@ class ToDoItemsTrackerFragment : Fragment() {
             navigateToDetails.observe(viewLifecycleOwner, Observer { hasNavigated ->
                 if (hasNavigated == true) navigateToDetails(itemToDetails)
             })
-            toDoItems.observe(viewLifecycleOwner, Observer { items ->
+            toDoItemsDatabase.observe(viewLifecycleOwner, Observer { items ->
                 if (!isListSumbitted){
                     items?.let {
                         //TODO("Проверить, что при изменеии списка элементов, все отрабатывается корректно, например при удалении элемента из списка")
@@ -108,5 +104,11 @@ class ToDoItemsTrackerFragment : Fragment() {
             )
         findNavController().navigate(action)
         toDoItemsTrackerViewModel.doneNavigation()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.i("ToDoItemsDetailFragment", "onDestroyView ")
     }
 }
