@@ -200,9 +200,10 @@ class ToDoItemDetailFragment : Fragment() {
     private fun getPriorityCode(text: String): Int = priority_items.indexOf(text)
 
     private fun navigateToToDoItemsTracker() {
-        val action =
-            ToDoItemDetailFragmentDirections.actionToDoItemDetailFragmentToToDoItemsTrackerFragment()
-        findNavController().navigate(action)
+//        val action =
+//            ToDoItemDetailFragmentDirections.actionToDoItemDetailFragmentToToDoItemsTrackerFragment()
+//        findNavController().navigate(action)
+        findNavController().popBackStack()
         detailViewModel.doneNavigating()
     }
 }
