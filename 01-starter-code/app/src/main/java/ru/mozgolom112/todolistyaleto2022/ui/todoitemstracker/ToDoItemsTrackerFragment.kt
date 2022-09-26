@@ -30,10 +30,8 @@ class ToDoItemsTrackerFragment : Fragment() {
         val infoClick = ToDoItemAdapter.InfoClickListener() { selectedItem ->
             toDoItemsTrackerViewModel.navigateToItemDetails(selectedItem)
         }
-        val checkBoxClick = ToDoItemAdapter.CheckBoxStateClickListener() {selectedItem ->
+        val checkBoxClick = ToDoItemAdapter.CheckBoxStateClickListener() { selectedItem ->
             toDoItemsTrackerViewModel.changeItemState(selectedItem)
-            val position = toDoItemAdapter.currentList.indexOf(selectedItem)
-            toDoItemAdapter.notifyItemChanged(position) //для обновления анимации элемента в recycleview
         }
         ToDoItemAdapter(infoClick, checkBoxClick)
     }
@@ -77,18 +75,16 @@ class ToDoItemsTrackerFragment : Fragment() {
         DataBindingUtil.inflate(inflater, R.layout.fragment_to_do_items_tracker, container, false)
 
     private fun setObservers() {
-        var isListSumbitted = false
+
         toDoItemsTrackerViewModel.apply {
             navigateToDetails.observe(viewLifecycleOwner, Observer { hasNavigated ->
                 if (hasNavigated == true) navigateToDetails(itemToDetails)
             })
             toDoItemsDatabase.observe(viewLifecycleOwner, Observer { items ->
-                if (!isListSumbitted){
-                    items?.let {
-                        //TODO("Проверить, что при изменеии списка элементов, все отрабатывается корректно, например при удалении элемента из списка")
-                        toDoItemAdapter.submitList(items)
-                        isListSumbitted = true  //чтобы submit произошел лишь однажды
-                    }
+                items?.let {
+                    //TODO("Проверить, что при изменеии списка элементов, все отрабатывается корректно, например при удалении элемента из списка")
+                    toDoItemAdapter.submitList(items)
+                    Log.i("ToDoItemsTrackerFragment", "submitList")
                 }
             })
         }
@@ -104,11 +100,5 @@ class ToDoItemsTrackerFragment : Fragment() {
             )
         findNavController().navigate(action)
         toDoItemsTrackerViewModel.doneNavigation()
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.i("ToDoItemsDetailFragment", "onDestroyView ")
     }
 }

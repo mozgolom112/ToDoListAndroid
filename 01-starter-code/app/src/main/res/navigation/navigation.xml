@@ -11,8 +11,7 @@
         <action
             android:id="@+id/actionToDoItemsTrackerFragmentToToDoItemDetailFragment"
             app:destination="@id/toDoItemDetailFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:launchSingleTop="true">
+            app:enterAnim="@anim/nav_default_enter_anim">
             <argument
                 android:name="selectedToDoItem"
                 app:argType="ru.mozgolom112.todolistyaleto2022.domain.ToDoItem"
@@ -23,12 +22,6 @@
         android:id="@+id/toDoItemDetailFragment"
         android:name="ru.mozgolom112.todolistyaleto2022.ui.todoitemdetail.ToDoItemDetailFragment"
         android:label="ToDoItemDetailFragment">
-        <action
-            android:id="@+id/actionToDoItemDetailFragmentToToDoItemsTrackerFragment"
-            app:destination="@id/toDoItemsTrackerFragment"
-            app:launchSingleTop="false"
-            app:popUpTo="@id/toDoItemDetailFragment"
-            app:popUpToInclusive="true" />
         <argument
             android:name="selectedToDoItem"
             app:argType="ru.mozgolom112.todolistyaleto2022.domain.ToDoItem"

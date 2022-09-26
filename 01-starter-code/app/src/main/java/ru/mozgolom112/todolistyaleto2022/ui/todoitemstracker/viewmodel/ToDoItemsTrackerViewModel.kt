@@ -20,10 +20,6 @@ class ToDoItemsTrackerViewModel(
     application: Application
 ) : AndroidViewModel(application) { //Оставил пока в качестве примера, но лучше использовать просто ViewModel
 
-    init {
-        Log.i("ToDoItemTrackerViewModel", "ToDoItemDetailViewModel was init")
-    }
-
     private val db by lazy(Dispatchers.IO) { ToDoListDatabase.getInstance(application.applicationContext) }
     private val repository by lazy(Dispatchers.IO) { ToDoItemRepository(db) }
 
