@@ -21,7 +21,8 @@
             android:layout_margin="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:isChecked="@{toDoItem.completed}"/>
 
         <TextView
             android:id="@+id/labelImportant"
@@ -51,6 +52,7 @@
             app:layout_constraintEnd_toStartOf="@+id/btnInfo"
             app:layout_constraintStart_toEndOf="@+id/labelImportant"
             app:layout_constraintTop_toTopOf="@+id/checkBoxState"
+            app:strikethrough="@{toDoItem.completed}"
             tools:text="рдд"></TextView>
 
         <TextView

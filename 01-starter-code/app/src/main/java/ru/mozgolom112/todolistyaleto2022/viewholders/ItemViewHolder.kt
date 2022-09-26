@@ -1,8 +1,10 @@
 package ru.mozgolom112.todolistyaleto2022.viewholders
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ru.mozgolom112.todolistyaleto2022.R
 import ru.mozgolom112.todolistyaleto2022.adapters.ToDoItemAdapter
 import ru.mozgolom112.todolistyaleto2022.databinding.ListItemBinding
 import ru.mozgolom112.todolistyaleto2022.domain.ToDoItem
@@ -24,6 +26,7 @@ class ItemViewHolder private constructor(private val binding: ListItemBinding) :
         infoClickListener: ToDoItemAdapter.InfoClickListener,
         checkBoxStateClickListener: ToDoItemAdapter.CheckBoxStateClickListener
     ) {
+        Log.i("ViewHolder", "Bind")
         fulfillBinding(item)
         setClickListeners(item, infoClickListener, checkBoxStateClickListener)
     }
@@ -32,7 +35,8 @@ class ItemViewHolder private constructor(private val binding: ListItemBinding) :
     private fun fulfillBinding(item: ToDoItem) {
         binding.apply {
             toDoItem = item
-            checkBoxState.isChecked = item.isCompleted
+            //checkBoxState.isChecked = item.isCompleted
+            //txtTaskShort.paint.isStrikeThruText = item.isCompleted
             executePendingBindings()
         }
     }

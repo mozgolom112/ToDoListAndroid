@@ -62,6 +62,12 @@ fun bindDate(textView: TextView, _date: Long) {
     }
 }
 
+@BindingAdapter("strikethrough")
+fun strikethrough(textView: TextView, isCompleted: Boolean){
+    Log.i("strikethrough", "$isCompleted")
+    textView.paint.isStrikeThruText = isCompleted
+}
+
 @BindingAdapter("isChecked")
 fun isChecked(checkBox: CheckBox, _state: Boolean){
     checkBox.isChecked = _state
