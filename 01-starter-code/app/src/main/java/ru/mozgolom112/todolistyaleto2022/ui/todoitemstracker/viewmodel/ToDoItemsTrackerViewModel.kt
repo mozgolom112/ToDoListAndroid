@@ -63,9 +63,8 @@ class ToDoItemsTrackerViewModel(
     }
 
     private suspend fun updateItemState(item: ToDoItem) = withContext(Dispatchers.IO) {
-        item.isCompleted = !item.isCompleted //меняем на противоположный
-        item.dateModified = System.currentTimeMillis()
-        db.toDoListDatabaseDao.updateToDoItem(item.asDatabaseModel())
+        val itemClone = item.copy(isCompleted = !item.isCompleted, dateModified = System.currentTimeMillis())
+        db.toDoListDatabaseDao.updateToDoItem(itemClone.asDatabaseModel())
         Log.i("ToDoItemsTrackerViewModel", "Item $item обновил состояние на ${item.isCompleted}")
     }
 }

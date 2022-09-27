@@ -32,10 +32,6 @@ class ToDoItemsTrackerFragment : Fragment() {
         }
         val checkBoxClick = ToDoItemAdapter.CheckBoxStateClickListener() { selectedItem ->
             toDoItemsTrackerViewModel.changeItemState(selectedItem)
-            //без notify неуспевает обработать изменения почему-то)
-            //Issue происходит двойной binding объекта в основом
-            val position = toDoItemAdapter.currentList.indexOf(selectedItem)
-            toDoItemAdapter.notifyItemChanged(position) //для обновления зачеркивания текста в элементе в recycleview
         }
         ToDoItemAdapter(infoClick, checkBoxClick)
     }
