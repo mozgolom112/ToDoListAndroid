@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.ToDoListYaLeto2022" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.ToDoListYaLeto2022" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/ya_Primary_Back</item>
+        <item name="colorPrimary">@color/ya_Primary_Label</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/ya_Primary_Label</item>
         <item name="colorPrimaryDark">@color/ya_Primary_Label</item>
@@ -12,10 +12,19 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/ya_Primary_Back</item>
+
         <!-- Customize your theme here. -->
+
+
+
     </style>
+
+
+
     <style name="AccentButton" parent="ThemeOverlay.AppCompat.Dark">
         <item name="colorButtonNormal">@color/ya_Red</item>
         <item name="colorAccent">@color/ya_Disable_Label</item>
     </style>
+
+
 </resources>

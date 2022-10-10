@@ -53,7 +53,7 @@
             app:layout_constraintStart_toEndOf="@+id/labelImportant"
             app:layout_constraintTop_toTopOf="@+id/checkBoxState"
             app:strikethrough="@{toDoItem.completed}"
-            tools:text="рдд"></TextView>
+            tools:text="рдд" />
 
         <TextView
             android:id="@+id/txtDeadline"

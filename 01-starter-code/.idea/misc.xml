@@ -4,11 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Nikita_pc/Desktop/YandexLeto22/homework/yandex/ToDoListAndroid/01-starter-code/app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.1725" />
+        <entry key="..\:/Users/Nikita_pc/Desktop/YandexLeto22/homework/yandex/ToDoListAndroid/01-starter-code/app/src/main/res/drawable/ic_eye_slash.xml" value="0.1165" />
+        <entry key="..\:/Users/Nikita_pc/Desktop/YandexLeto22/homework/yandex/ToDoListAndroid/01-starter-code/app/src/main/res/layout/activity_to_do_list_ya_leto.xml" value="0.153125" />
         <entry key="..\:/Users/Nikita_pc/Desktop/YandexLeto22/homework/yandex/ToDoListAndroid/01-starter-code/app/src/main/res/layout/border.xml" value="0.23333333333333334" />
         <entry key="..\:/Users/Nikita_pc/Desktop/YandexLeto22/homework/yandex/ToDoListAndroid/01-starter-code/app/src/main/res/layout/fragment_to_do_item_detail.xml" value="0.2" />
-        <entry key="..\:/Users/Nikita_pc/Desktop/YandexLeto22/homework/yandex/ToDoListAndroid/01-starter-code/app/src/main/res/layout/fragment_to_do_items_tracker.xml" value="0.2" />
+        <entry key="..\:/Users/Nikita_pc/Desktop/YandexLeto22/homework/yandex/ToDoListAndroid/01-starter-code/app/src/main/res/layout/fragment_to_do_items_tracker.xml" value="0.264" />
         <entry key="..\:/Users/Nikita_pc/Desktop/YandexLeto22/homework/yandex/ToDoListAndroid/01-starter-code/app/src/main/res/layout/list_item.xml" value="0.36738703339882123" />
         <entry key="..\:/Users/Nikita_pc/Desktop/YandexLeto22/homework/yandex/ToDoListAndroid/01-starter-code/app/src/main/res/layout/list_item_to_do_item.xml" value="0.24739583333333334" />
+        <entry key="..\:/Users/Nikita_pc/Desktop/YandexLeto22/homework/yandex/ToDoListAndroid/01-starter-code/app/src/main/res/layout/spin_list_item.xml" value="0.153125" />
+        <entry key="..\:/Users/Nikita_pc/Desktop/YandexLeto22/homework/yandex/ToDoListAndroid/01-starter-code/app/src/main/res/menu/top_app_bar.xml" value="0.1765625" />
         <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/drawable/ic_plus.xml" value="0.241" />
         <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/drawable/ic_trash_can.xml" value="0.2325" />
         <entry key="..\:/YandexLeto2022/homework/yandex/ToDoList/ToDoListAndroid/01-starter-code/app/src/main/res/drawable/ic_xmark.xml" value="0.2795" />

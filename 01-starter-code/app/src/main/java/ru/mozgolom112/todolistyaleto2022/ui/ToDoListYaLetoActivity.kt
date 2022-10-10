@@ -1,7 +1,7 @@
 package ru.mozgolom112.todolistyaleto2022.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import ru.mozgolom112.todolistyaleto2022.R
 
 class ToDoListYaLetoActivity : AppCompatActivity() {
